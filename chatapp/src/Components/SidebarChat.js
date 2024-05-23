@@ -9,7 +9,8 @@ function SidebarChat({ chatroomtile, currentUser }) {
     const [online, setOnline] = useState(false);
     const socket = useRef()
 
-    const API_URL = "chat-app-api-henna.vercel.app/";
+    // const API_URL = "chat-app-api-henna.vercel.app/";
+        const API_URL = process.env.REACT_APP_API_URL;
     useEffect(() => {
         socket.current = io(API_URL);
     }, [API_URL])

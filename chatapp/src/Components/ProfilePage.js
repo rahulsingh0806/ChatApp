@@ -9,7 +9,8 @@ function ProfilePage({ toggler, togglestate }) {
   const [username, setUsername] = useState(user.username)
   const [photo, setPhoto] = useState("")
 
-  const API_URL = "chat-app-api-henna.vercel.app/";
+  // const API_URL = "chat-app-api-henna.vercel.app/";
+      const API_URL = process.env.REACT_APP_API_URL;
   const handleSubmit = async (e) => {
     e.preventDefault()
     const config = {

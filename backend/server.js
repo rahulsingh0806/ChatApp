@@ -9,32 +9,27 @@ import chatroomRoutes from "./routes/chatrooms.js";
 import http from "http";
 import { Server } from "socket.io";
 
-
 /* App Config */
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
-dotenv.config();
 
-/* Middleware -> Deals the Connections between database and the App */
+/* Middleware */
 app.use(express.json());
-app.use(cors());
-
+app.use(cors({
+  origin: ["https://deploy-mern-1whq-vercel.app"],
+  methods: ["POST", "GET"],
+  credentials: true
+}));
 
 /* Socket.io Setup */
-// const server = http.createServer(app);
-// const io = new Server(server, {
-//   cors: {
-//     origin: "*",
-//   },
-// });
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
-app.use(cors(
-  {
-    origin :["https://deploy-mern-1whq-vercel.app"],
-    methods :["POST","GET"],
-    credentials :true
-  }
-));
 let users = [];
 
 const addUser = (userId, socketId) => {
@@ -51,16 +46,13 @@ const getUser = (userId) => {
 };
 
 io.on("connection", (socket) => {
-  //when connect
   console.log("One User Got Connected.");
 
-  //take userId and socketId from user
   socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
     io.emit("getUsers", users);
   });
 
-  //send and get message
   socket.on("sendMessage", ({ senderId, receiverId, text }) => {
     const user = getUser(receiverId);
     io.to(user?.socketId).emit("getMessage", {
@@ -69,7 +61,6 @@ io.on("connection", (socket) => {
     });
   });
 
-  //when disconnect
   socket.on("disconnect", () => {
     console.log("One User Got Disconnected!");
     removeUser(socket.id);
@@ -77,7 +68,7 @@ io.on("connection", (socket) => {
   });
 });
 
-/* API Routes -> The first part is the default path for all the requests in that users.js file there we have to continue from this path */
+/* API Routes */
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/chatrooms", chatroomRoutes);
@@ -97,11 +88,11 @@ mongoose.connect(
   }
 );
 
-app.get("/",(req,res)=>{
-  res.send("Welcome to the AmigoChat API")
-})
+app.get("/", (req, res) => {
+  res.send("Welcome to the AmigoChat API");
+});
 
-/* Port Listening In */
+/* Port Listening */
 server.listen(port, () => {
-  console.log("Server is running in PORT 5000");
+  console.log(`Server is running on PORT ${port}`);
 });

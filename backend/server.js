@@ -28,6 +28,13 @@ const io = new Server(server, {
   },
 });
 
+app.use(cors(
+  {
+    origin :["https://deploy-mern-1whq-vercel.app"],
+    methods :["POST","GET"],
+    credentials :true
+  }
+));
 let users = [];
 
 const addUser = (userId, socketId) => {

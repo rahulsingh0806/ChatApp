@@ -21,12 +21,12 @@ app.use(cors());
 
 
 /* Socket.io Setup */
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-  },
-});
+// const server = http.createServer(app);
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//   },
+// });
 
 app.use(cors(
   {

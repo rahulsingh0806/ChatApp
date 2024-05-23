@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 /* Middleware */
 app.use(express.json());
 app.use(cors({
-  origin: ["https://chat-app-frontend-six-zeta.vercel.app/"],
+  origin: ["https://chat-app-frontend-six-zeta.vercel.app"],
   methods: ["POST", "GET"],
   credentials: true
 }));

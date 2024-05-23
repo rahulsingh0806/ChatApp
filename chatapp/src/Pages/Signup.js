@@ -14,7 +14,8 @@ function Signup() {
   const [isLoading,setIsLoading] = useState(false)
   const history = useHistory();
 
-  const API_URL = "chat-app-api-henna.vercel.app/";
+  // const API_URL = "chat-app-api-henna.vercel.app/";
+      const API_URL = process.env.REACT_APP_API_URL;
 
   const handleForm = async (e) => {
     e.preventDefault();

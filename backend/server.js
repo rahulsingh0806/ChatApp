@@ -76,8 +76,9 @@ app.use("/api/messages", messageRoutes);
 app.use("/photo", express.static("images"));
 
 /* Database Connection */
+const MONGO_URL = `mongodb+srv://admin:admin1234@chatapp.yfkkajd.mongodb.net/database`;
 mongoose.connect(
-  process.env.MONGO_URL,
+  MONGO_URL,
   {
     useCreateIndex: true,
     useNewUrlParser: true,
